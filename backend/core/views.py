@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from .serializers import *
 
-from .products import products
 
 app_name = 'core'
 

@@ -689,6 +689,8 @@ body {
 .product-card h2 {
   font-size: 14px;
   line-height: 18px;
+  max-height: 18px;
+  overflow: hidden;
 }
 .product-card p {
   font-weight: 700;
@@ -699,8 +701,7 @@ body {
 .product-card img {
   width: 135px;
   height: 125px;
-  -o-object-fit: cover;
-  object-fit: cover;
+  object-fit: contain;
 }
 .product-card .img {
   display: -webkit-box;
