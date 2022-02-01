@@ -14,7 +14,7 @@ function ProductScreen() {
   const { error, loading, product } = productDetails;
 
   useEffect(() => {
-    dispatch(productDetails(id)); // *action creator
+    dispatch(listProductDetails(id)); // *action creator
   }, [dispatch]);
 
   return (
