@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { Link, useParams } from "react-router-dom";
 
+// ? React-Redux
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetails } from "../actions/productActions";
+
 function ProductScreen() {
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
+
+  const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { error, loading, product } = productDetails;
 
   useEffect(() => {
-    async function fetchProduct() {
-      const { data } = await axios.get(`/api/products/${id}`);
-      setProduct(data);
-    }
-    fetchProduct();
-  }, []);
+    dispatch(productDetails(id)); // *action creator
+  }, [dispatch]);
+
   return (
     <div className="container">
       <div className="individual-product">
@@ -29,7 +32,7 @@ function ProductScreen() {
           <Link to="">Specification</Link>
         </div>
         <div className="product-image">
-          <img alt="" src={product.image} />
+          <img alt={product.name} src={product.image} />
         </div>
         <div className="product-description">
           <h2>Description</h2>

@@ -11,23 +11,13 @@ import SearchForm from "../components/SearchForm";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-// import axios from 'axios'    //  *not required after react-redux ?? pta ni online dekh
-
 function HomeScreen() {
-  // const [products, setProducts] = useState([]);   // *not required after react-redux
-
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { error, loading, products } = productList;
 
   useEffect(() => {
-    // async function fetchProduct() {      // *not required after react-redux
-    //   const { data } = await axios.get("/api/products/");
-    //   setProducts(data);
-    // }
-    // fetchProduct();
-
-    dispatch(listProducts());
+    dispatch(listProducts()); // *action creator
   }, [dispatch]);
 
   return (
@@ -79,18 +69,17 @@ function HomeScreen() {
 
             <div class="product">
               {products.map((product) => (
-                <div class="product-card" key={product._id}>
-                  <div class="img">
-                    <img src={product.image} />
-                  </div>
-                  <div class="text">
-                    <Link to={`/product/${product._id}`}>
+                <Link to={`/product/${product._id}`}>
+                  <div class="product-card" key={product._id}>
+                    <div class="img">
+                      <img src={product.image} />
+                    </div>
+                    <div class="text">
                       <h2>{product.name}</h2>
-
                       <p>INR {product.price}</p>
-                    </Link>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
