@@ -31,12 +31,11 @@ function CartScreen() {
 
   return (
     <section class="container">
-      <h2 className="h2-heading">Shopping Cart</h2>
-
       {cartItems.length === 0 ? (
         <h2 className="h2-heading">Cart is Empty</h2>
       ) : (
         <section className="cart-product-list">
+          <h2 className="h2-heading">Shopping Cart</h2>
           {cartItems.map((item) => (
             <div key={item.product}>
               <div class="product_list_item">

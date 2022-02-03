@@ -7,6 +7,8 @@ import { Routes, Route, Link } from "react-router-dom"; // https://reacttraining
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="" element={<CartScreen />} />
           <Route path=":id/qty=:qty" element={<CartScreen />} />
         </Route>
+        <Route path="/sign/" element={<LoginScreen />} />
+        <Route path="/sign-up/" element={<RegisterScreen />} />
       </Routes>
 
       {/* <Footer /> */}

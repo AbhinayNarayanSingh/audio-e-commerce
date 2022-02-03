@@ -5,7 +5,6 @@ from django.utils.translation import gettext, gettext_lazy as _
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from django.http import JsonResponse
 from .serializers import *
 
 
