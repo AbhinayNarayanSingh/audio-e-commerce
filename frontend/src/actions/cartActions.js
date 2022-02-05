@@ -62,3 +62,38 @@ export const removeFromCart = (id) => (dispatch, getState) => {
     });
   }
 };
+
+export const saveShippingAddress = (data) => (dispatch) => {
+  try {
+    dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: data });
+
+    localStorage.setItem("shippingAddress", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: "CART_SAVE_SHIPPING_ADDRESS_FAIL",
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const savePaymentMethod = (data) => (dispatch) => {
+  try {
+    dispatch({
+      type: CART_SAVE_PAYMENT_METHOD,
+      payload: data,
+    });
+
+    localStorage.setItem("paymentMethod", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: "CART_SAVE_PAYMENT_METHOD_FAIL",
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};

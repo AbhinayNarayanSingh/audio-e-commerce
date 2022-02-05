@@ -4,6 +4,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from .serializers import *
 
@@ -17,7 +18,7 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getProducts(request):
-    query = Product.objects.all()[:5]
+    query = Product.objects.all()[:6]
     serializer = ProductSerializer(query, many=True)
     return Response(serializer.data)
 
@@ -27,3 +28,22 @@ def getProduct(request, pk):
     query = Product.objects.get(_id=pk)
     serializer = ProductSerializer(query)
     return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def getProductsTest(request):
+    query = Product.objects.all()[:6]
+    
+    serializer = TestProductSerializer(query, many=True)
+    return Response(serializer.data)
+
+
+class CategoryAPI(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+
+class ProductAPI(viewsets.ModelViewSet):
+    serializer_class = TestProductSerializer
+    queryset = Product.objects.all()

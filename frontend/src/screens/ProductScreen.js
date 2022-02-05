@@ -10,6 +10,8 @@ import { listProductDetails } from "../actions/productActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
+import { inr } from "./INR";
+
 function ProductScreen() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -34,6 +36,12 @@ function ProductScreen() {
     }
   };
 
+  // const inr = (number) => {
+  //   return new Intl.NumberFormat("en-IN", {
+  //     maximumSignificantDigits: 3,
+  //   }).format(number);
+  // };
+
   return (
     <div className="container">
       {loading ? (
@@ -45,7 +53,7 @@ function ProductScreen() {
           <div className="product-title">
             <p>
               {product.countInStock > 0
-                ? `INR ${product.price}`
+                ? `INR ${inr(product.price)}.00`
                 : "Out of Stock"}
             </p>
             <h2>{product.name}</h2>

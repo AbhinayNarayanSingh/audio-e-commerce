@@ -10,6 +10,7 @@ import Hero from "../components/Hero";
 import SearchForm from "../components/SearchForm";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { inr } from "./INR";
 
 function HomeScreen() {
   const dispatch = useDispatch();
@@ -19,6 +20,12 @@ function HomeScreen() {
   useEffect(() => {
     dispatch(listProducts()); // *action creator
   }, [dispatch]);
+
+  // const inr = (number) => {
+  //   return new Intl.NumberFormat("en-IN", {
+  //     maximumSignificantDigits: 3,
+  //   }).format(number);
+  // };
 
   return (
     <div>
@@ -50,11 +57,14 @@ function HomeScreen() {
 
             <div className="banner">
               <div className="text">
-                <h2>TMA-2 Modular Headphone</h2>
+                <h2>Apple iPad Air 4th Gen</h2>
                 <Link to="">Shop now</Link>
               </div>
               <div className="img">
-                <img src="/img/product/product.png" alt="" />
+                <img
+                  src="/img/product/Apple-MYFQ2HN-A-Tablets-491901110-i-3-1200Wx1200H.jpg"
+                  alt=""
+                />
               </div>
             </div>
 
@@ -77,7 +87,7 @@ function HomeScreen() {
                   </Link>
                   <div class="text">
                     <h2>{product.name}</h2>
-                    <p>INR {product.price}</p>
+                    <p>INR {inr(product.price)}.00</p>
                   </div>
                 </div>
               ))}

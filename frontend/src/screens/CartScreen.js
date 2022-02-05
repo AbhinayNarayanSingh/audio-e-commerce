@@ -7,9 +7,17 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
+import { inr } from "./INR";
+
 function CartScreen() {
   const { id, qty } = useParams();
   const dispatch = useDispatch();
+
+  // const inr = (number) => {
+  //   return new Intl.NumberFormat("en-IN", {
+  //     maximumSignificantDigits: 20,
+  //   }).format(number);
+  // };
 
   useEffect(() => {
     if (id) {
@@ -25,9 +33,6 @@ function CartScreen() {
   const { cartItems } = cart;
 
   const navigate = useNavigate();
-  const addToCardHandler = () => {
-    navigate(`/cart/${id}/qty=${qty}`);
-  };
 
   return (
     <section class="container">
@@ -48,14 +53,18 @@ function CartScreen() {
                 <div class="text">
                   <div>
                     <h2 class="product_title">{item.name}</h2>
-                    <p class="product_price">INR {item.price}</p>
+                    <p class="product_price">INR {inr(item.price)}.00</p>
                   </div>
                   <div className="cart-user-action">
                     <div className="cart-quantity">
                       <i
                         onClick={() => {
                           navigate(
-                            `/cart/${item.product}/qty=${Number(item.qty) + 1}`
+                            `/cart/${item.product}/qty=${
+                              Number(item.qty) + 1 < item.countInStock
+                                ? Number(item.qty) + 1
+                                : item.countInStock
+                            }`
                           );
                         }}
                         class="fas fa-plus-circle"
@@ -63,6 +72,7 @@ function CartScreen() {
                       <p>{item.qty}</p>
                       <i
                         onClick={() => {
+                          // if cureent +1 product quantity is < stock count
                           navigate(
                             `/cart/${item.product}/qty=${Number(item.qty) - 1}`
                           );
@@ -90,15 +100,17 @@ function CartScreen() {
             <p>Total {cartItems.length} Items</p>
             <p>
               <span>INR </span>
-
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)
-                .toLocaleString("en-IN")}
+              {inr(
+                cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)
+                  .toLocaleString("en-IN")
+              )}
+              .00
             </p>
           </div>
           <div class="checkout">
-            <a href="">Proceed to Checkout</a>
+            <Link to="/checkout/">Proceed to Checkout</Link>
           </div>
         </div>
       ) : (

@@ -9,8 +9,17 @@ import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import CheckoutScreen from "./screens/CheckoutScreen";
+import SaveAddressScreen from "./screens/SaveAddressScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen.js";
 
 function App() {
+  const inr = (number) => {
+    return new Intl.NumberFormat("en-IN", {
+      maximumSignificantDigits: 3,
+    }).format(number);
+  };
+
   return (
     <div className="mobile">
       <Header />
@@ -24,6 +33,9 @@ function App() {
         </Route>
         <Route path="/sign/" element={<LoginScreen />} />
         <Route path="/sign-up/" element={<RegisterScreen />} />
+        <Route path="/shipping-address/" element={<SaveAddressScreen />} />
+        <Route path="/payment-method/" element={<PaymentMethodScreen />} />
+        <Route path="/checkout/" element={<CheckoutScreen />} />
       </Routes>
 
       {/* <Footer /> */}

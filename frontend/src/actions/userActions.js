@@ -15,7 +15,7 @@ export const login = (email, password) => async (dispatch) => {
     };
     const { data } = await axios.post(
       "/api/user/token/",
-      { username: email, password: password },
+      { email: email, password: password },
       config
     );
 

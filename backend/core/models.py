@@ -4,22 +4,38 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.utils.text import slugify
 
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from user.models import User
+
 
 # Create your models here.
+class Brand(models.Model):
+    name = models.CharField( max_length=250, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+        
+class Category(models.Model):
+    name = models.CharField( max_length=250, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 
 class Product(models.Model):
 
     _id = models.AutoField(primary_key=True, unique=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True) 
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, blank=True, null=True) 
     name = models.CharField( max_length=250, blank=True, null=True)
     image = models.ImageField(upload_to="product/", null=True, blank=True)
-    brand = models.CharField( max_length=250, blank=True, null=True)
-    category = models.CharField( max_length=250, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True) 
     description = models.TextField()
     rating = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     numReview = models.IntegerField(null=True, blank=True)
-    price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateField(auto_now=True)
 
@@ -95,15 +111,16 @@ class OrderItem(models.Model):
 
 
 class ShippingAddress(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
     order = models.OneToOneField(
         Order, on_delete=models.CASCADE, null=True, blank=True)
-    address = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=500, null=True, blank=True)
+    phone = models.CharField(max_length=500, null=True, blank=True)
+    streetAddress = models.CharField(max_length=500, null=True, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
     postalCode = models.CharField(max_length=200, null=True, blank=True)
+    state = models.CharField(max_length=200, null=True, blank=True)
     country = models.CharField(max_length=200, null=True, blank=True)
-    shippingPrice = models.DecimalField(
-        max_digits=7, decimal_places=2, null=True, blank=True)
-    _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return str(self.address)

@@ -12,7 +12,9 @@ from .serializers import *
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from user.models import User
+
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -48,9 +50,8 @@ def registerUser(request):
     data = request.data
     try:
         user = User.objects.create(
-            first_name=data['name'],
+            name=data['name'],
             email=data['email'],
-            username=data['email'],
             password=make_password(data['password'])
             
         )
