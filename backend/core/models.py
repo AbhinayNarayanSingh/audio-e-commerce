@@ -73,14 +73,20 @@ class Review(models.Model):
 class Order(models.Model):
 
     _id = models.AutoField(primary_key=True, unique=True, editable=False)
+
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+
     paymentMethod = models.CharField( max_length=250, blank=True, null=True)
-    tax = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    shipping = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    total = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+
+    tax = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    shipping = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    total = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+
     isPaid = models.BooleanField(default=False)
     isDelivered = models.BooleanField(default=False)
+
     createdAt = models.DateField(auto_now=True)
     paidAt = models.DateField(blank=True, null=True)
     deliveredAt = models.DateField(blank=True, null=True)
@@ -97,14 +103,17 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    _id = models.AutoField(primary_key=True, editable=False)
+
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=200, null=True, blank=True)
+
     qty = models.IntegerField(null=True, blank=True, default=0)
     price = models.DecimalField(
-        max_digits=7, decimal_places=2, null=True, blank=True)
+        max_digits=20, decimal_places=2, null=True, blank=True)
+
+    name = models.CharField(max_length=200, null=True, blank=True)
     image = models.CharField(max_length=200, null=True, blank=True)
-    _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return str(self.name)
@@ -114,8 +123,10 @@ class ShippingAddress(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
     order = models.OneToOneField(
         Order, on_delete=models.CASCADE, null=True, blank=True)
+
     name = models.CharField(max_length=500, null=True, blank=True)
     phone = models.CharField(max_length=500, null=True, blank=True)
+
     streetAddress = models.CharField(max_length=500, null=True, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
     postalCode = models.CharField(max_length=200, null=True, blank=True)
@@ -123,4 +134,4 @@ class ShippingAddress(models.Model):
     country = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return str(self.address)
+        return str(self.streetAddress)

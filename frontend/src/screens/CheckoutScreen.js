@@ -3,23 +3,28 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { inr } from "./INR";
+import { createOrder } from "../actions/orderActions";
 
 function Checkout() {
-  // const inr = (number) => {
-  //   return new Intl.NumberFormat("en-IN", {
-  //     maximumSignificantDigits: 20,
-  //   }).format(number);
-  // };
-
   const { paymentMethod, shippingAddress, cartItems } = useSelector(
     (state) => state.cart
   );
+
+  const { order, error, success } = useSelector((state) => state.orderCreate);
+
   const { userInfo } = useSelector((state) => state.userLogin);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!userInfo.email) {
       navigate("/sign/");
+    }
+    if (success) {
+      navigate(`/order/${order._id}`);
+    }
+    if (error) {
+      console.log(`>>>> ${error}`);
     }
   });
 
@@ -28,10 +33,26 @@ function Checkout() {
     .toFixed(2)
     .toLocaleString("en-IN");
 
+  const tax = ((cartTotal / 112) * 12).toFixed(2);
+  const Shipping = 0;
+
+  const placeOrder = () => {
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        cartTotal: cartTotal,
+        Shipping: Shipping,
+        tax: tax,
+      })
+    );
+  };
+
   return (
     <div className="container">
       <section className="addresses">
-        <form action="">
+        <section>
           <div className="checkout-heading">
             <p>Shipping Address</p>
             <Link to="/shipping-address/">Add / Edit</Link>
@@ -78,7 +99,7 @@ function Checkout() {
             </div>
             <div>
               <h2>Tax</h2>
-              <p>INR {inr(((cartTotal / 112) * 12).toFixed(2))}</p>
+              <p>INR {inr(tax)}</p>
             </div>
             <div>
               <h2>Order Total</h2>
@@ -86,10 +107,13 @@ function Checkout() {
             </div>
           </div>
 
-          <div className="submit">
-            <input type="submit" value="Place your order" />
+          <div className="submit" onClick={placeOrder}>
+            <button>Place your order</button>
+            {/* <input type="submit" value="Place your order" /> */}
           </div>
-        </form>
+        </section>
+
+        {/* <p onClick={placeOrder}>Place your order</p> */}
       </section>
     </div>
   );
