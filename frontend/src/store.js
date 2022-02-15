@@ -6,6 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productListReducer,
   productDetailsReducer,
+  productListCategoryReducer,
   // productDeleteReducer,
   // productCreateReducer,
   // productUpdateReducer,
@@ -15,15 +16,24 @@ import {
 
 import { cartReducer } from "./reducers/cartReducers";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
-import { orderCreateReducer } from "./reducers/orderReducers";
+import { orderCreateReducer, orderViewReducer } from "./reducers/orderReducers";
+import { categoryReducer } from "./redux/category";
+import { featureProductReducer } from "./redux/featureProduct";
 
 const reducer = combineReducers({
   productList: productListReducer,
+  productsByCategory: productListCategoryReducer,
+
   productDetails: productDetailsReducer,
+  categories: categoryReducer,
+
+  heroProduct: featureProductReducer,
+
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   orderCreate: orderCreateReducer,
+  orderDetail: orderViewReducer,
 });
 
 // Reading data from localStorage  syntax: localStorage.getItem(key);

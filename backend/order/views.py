@@ -15,7 +15,7 @@ from .serializers import *
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def test(request):
+def orderCreate(request):
 
     user = request.user
     data = request.data
@@ -51,4 +51,13 @@ def test(request):
 
 
     serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+def orderView(request):
+    order = Order.objects.filter(user=1)
+
+    serializer = OrderSerializer(order, many=True)
     return Response(serializer.data)

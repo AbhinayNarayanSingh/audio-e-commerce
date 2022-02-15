@@ -21,7 +21,7 @@ function Checkout() {
       navigate("/sign/");
     }
     if (success) {
-      navigate(`/order/${order._id}`);
+      navigate(`/order-confirmation/${order._id}`);
     }
     if (error) {
       console.log(`>>>> ${error}`);

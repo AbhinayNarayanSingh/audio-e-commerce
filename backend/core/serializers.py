@@ -13,13 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name',]
+        fields = ['name','pk']
         # fields = "__all__"
 
 
-
-class TestProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
-    class Meta:
-        model = Product
-        fields = "__all__"

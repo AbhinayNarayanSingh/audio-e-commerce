@@ -39,6 +39,8 @@ class Product(models.Model):
     countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateField(auto_now=True)
 
+    slug = models.SlugField( max_length=250, blank=True, null=True)
+
     class Meta:
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
@@ -48,6 +50,10 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("Product", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        self.slug=slugify(self.name)
+        return super(Product, self).save( *args, **kwargs)
 
 
 class Review(models.Model):

@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 function SearchForm() {
+  const [input, setInput] = useState("");
+  const submitHandler = () => {
+    console.log(input);
+  };
+
   return (
-    <form action="" method="get">
+    <form>
       <div className="form-search search-form">
-        <button>
-          <img src="/img/assets/search.svg" alt="" />
-        </button>
-        <input type="text" placeholder="Search headphone" />
+        <img
+          src="/img/assets/search.svg"
+          alt="search-button"
+          onClick={submitHandler}
+        />
+
+        <input
+          type="text"
+          placeholder="Search headphone"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
       </div>
     </form>
   );

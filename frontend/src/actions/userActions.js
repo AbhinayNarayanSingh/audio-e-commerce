@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import * as constants from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {

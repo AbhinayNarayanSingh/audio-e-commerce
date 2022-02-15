@@ -4,28 +4,30 @@ import { Link } from "react-router-dom";
 // ? React-Redux
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
+import { categoryList } from "../redux/category";
+import { featureProduct } from "../redux/featureProduct";
 
 // ?_Component Import
 import Hero from "../components/Hero";
 import SearchForm from "../components/SearchForm";
+import FeatureProduct from "../components/FeatureProduct";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { inr } from "./INR";
 
 function HomeScreen() {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { error, loading, products } = productList;
-
   useEffect(() => {
     dispatch(listProducts()); // *action creator
+    dispatch(categoryList()); // *action creator
+    dispatch(featureProduct()); // *action creator
   }, [dispatch]);
 
-  // const inr = (number) => {
-  //   return new Intl.NumberFormat("en-IN", {
-  //     maximumSignificantDigits: 3,
-  //   }).format(number);
-  // };
+  const { error, loading, products } = useSelector(
+    (state) => state.productList
+  );
+  const { category } = useSelector((state) => state.categories);
+  // const { _featureProduct } = useSelector((state) => state.heroProduct);         // unable to access
 
   return (
     <div>
@@ -41,21 +43,21 @@ function HomeScreen() {
         <main>
           <div className="container">
             <div className="category">
-              <Link to="" className="badge_p">
-                Headphone
-              </Link>
-              <Link to="" className="badge">
-                Headphone
-              </Link>
-              <Link to="" className="badge">
-                Earpads
-              </Link>
-              <Link to="" className="badge">
-                Cable
-              </Link>
+              {category
+                ? category.map((set) => (
+                    <Link
+                      to={`/product/category/${set.pk}`}
+                      className="badge_p"
+                    >
+                      {set.name}
+                    </Link>
+                  ))
+                : ""}
             </div>
 
-            <div className="banner">
+            <FeatureProduct />
+
+            {/* <div className="banner">
               <div className="text">
                 <h2>Apple iPad Air 4th Gen</h2>
                 <Link to="">Shop now</Link>
@@ -66,7 +68,7 @@ function HomeScreen() {
                   alt=""
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="nav">
               <Link to="">
@@ -80,9 +82,9 @@ function HomeScreen() {
             <div class="product">
               {products.map((product) => (
                 <div class="product-card" key={product._id}>
-                  <Link to={`/product/${product._id}`}>
+                  <Link to={`/product/${product._id}/${product.slug}`}>
                     <div class="img">
-                      <img src={product.image} />
+                      <img src={product.image} alt={product.name} />
                     </div>
                   </Link>
                   <div class="text">

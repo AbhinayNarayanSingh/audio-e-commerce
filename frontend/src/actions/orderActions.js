@@ -44,3 +44,35 @@ export const createOrder = (order) => async (dispatch, getState) => {
     });
   }
 };
+
+export const viewOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: constants.ORDER_DETAILS_REQUEST,
+    });
+
+    const { userInfo } = getState().userLogin;
+
+    const config = {
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${userInfo.access}`,
+      },
+    };
+
+    const { data } = await axios.post("/order-view/", config);
+
+    dispatch({
+      type: constants.ORDER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: constants.ORDER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};

@@ -13,12 +13,6 @@ function CartScreen() {
   const { id, qty } = useParams();
   const dispatch = useDispatch();
 
-  // const inr = (number) => {
-  //   return new Intl.NumberFormat("en-IN", {
-  //     maximumSignificantDigits: 20,
-  //   }).format(number);
-  // };
-
   useEffect(() => {
     if (id) {
       dispatch(addToCart(id, qty));

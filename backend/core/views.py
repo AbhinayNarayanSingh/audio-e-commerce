@@ -11,14 +11,17 @@ from .serializers import *
 
 app_name = 'core'
 
-@api_view(['GET'])
-def getRoutes(request):
-    return Response('Hello')
 
 
 @api_view(['GET'])
 def getProducts(request):
     query = Product.objects.all()[:6]
+    serializer = ProductSerializer(query, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getProductsByCategory(request, category):
+    query = Product.objects.filter(category=category)
     serializer = ProductSerializer(query, many=True)
     return Response(serializer.data)
 
@@ -44,6 +47,16 @@ class CategoryAPI(viewsets.ModelViewSet):
     queryset = Category.objects.all()
 
 
-class ProductAPI(viewsets.ModelViewSet):
-    serializer_class = TestProductSerializer
-    queryset = Product.objects.all()
+class FeatureProductAPI(viewsets.ModelViewSet):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.exclude(countInStock = 0).order_by('?')[:1]
+
+
+
+@api_view(['GET'])
+def categoryProductAPI(request, pk):
+    query = Product.objects.filter(category = pk)
+    serializer = ProductSerializer(query, many=True)
+    return Response(serializer.data)
+
+
